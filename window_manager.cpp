@@ -44,7 +44,7 @@ void refresh_value() {
 
 void init(std::vector<Window> *wins) {
     windows = wins;
-    init_all();
+//    init_all();
 }
 
 void in_RX_callback(uint8_t received_char) { uart_buffer.append(received_char); }

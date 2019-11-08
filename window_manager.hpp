@@ -12,6 +12,7 @@ namespace window_manager {
  */
 enum class Keyboard_action { TAB = 9, QUIT = 'q', ARROW_UP = 65, ARROW_DOWN = 66, ARROW_LEFT = 68, ARROW_RIGHT = 67 };
 
+void init_all();
 /**
  * @brief This function initialize window_manager
  * 

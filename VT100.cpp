@@ -1,27 +1,25 @@
 #include "VT100.hpp"
 
-void (*print_char_function)(char);
+std::function<void(char)> print_char_function = nullptr;
 
 int actualX;
 int actualY;
 
 namespace VT {
 
-void set_print_function(void (*print_char_function_)(char)) {
-    if (print_char_function_) {
-        print_char_function = print_char_function_;
+bool init(std::function<void(char)> handler) {
+    if (print_char_function == nullptr) {
+        reset();
+        hide_cursor();
+        print_char_function = handler;
+        return true;
     }
+    return false;
 }
 
 void reset(void) {
     print(esc);
     print('c');
-}
-
-void init(void (*printCharFunct)(char)) {
-    set_print_function(printCharFunct);
-    reset();
-    hide_cursor();
 }
 
 void print(char c) {

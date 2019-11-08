@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <functional>
 
 namespace VT {
 
@@ -33,8 +34,8 @@ enum class UNICODE {
  *
  * @return
  */	
-void init(void (*print_char_function_)(char));
-
+//void init(void (*print_char_function_)(char));
+bool init(std::function<void(char)>);
 /**
  * @brief This function reset terminal to default
  *
