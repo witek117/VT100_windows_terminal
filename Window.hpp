@@ -99,7 +99,7 @@ class Window {
      * 
      * @return
      */
-    void refresh_value();
+    void refresh_value(bool refresh_hard);
 
     /**
      * @brief This function is used ONLY IN LOOP to refreash frame and value of the boxes in window

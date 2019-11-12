@@ -7,7 +7,7 @@
 
 
 class Slider : public Box, public Number {
-    uint16_t oldBarStatus = std::numeric_limits<short>::max(); // to note the change between new value and old value, used in refresh_value function
+    uint16_t oldBarStatus = std::numeric_limits<uint16_t>::max(); // to note the change between new value and old value, used in refresh_value function
 
   public:
 
@@ -46,7 +46,7 @@ class Slider : public Box, public Number {
      * 
      * @return
      */
-    void refresh_value() override ;
+    void refresh_value(bool refresh_hard) override ;
 
     /**
      * @brief This function is used when user do an event on the box 

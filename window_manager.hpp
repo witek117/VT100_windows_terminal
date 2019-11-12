@@ -42,6 +42,7 @@ void run();
  */
 void refresh_all();
 
+void refresh_value(bool refresh_hard);
 } // namespace window_manager
 
 #endif

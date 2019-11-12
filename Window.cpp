@@ -12,7 +12,7 @@ Window::Window(const char *title, int positionX, int positionY, int width, int h
 void Window::init() {
     titleLen = strlen(title);
 
-    if (boxes.size() == 0) {
+    if (boxes.empty()) {
         return;
     }
 
@@ -106,9 +106,9 @@ void Window::print_frame(VT::COLOUR frameColour) {
     VT::restore_cursor();
 }
 
-void Window::refresh_value() {
+void Window::refresh_value(bool refresh_hard = false) {
     for (uint8_t i = 0; i < boxes.size(); i++) {
-        boxes[i]->refresh_value();
+        boxes[i]->refresh_value(refresh_hard);
     }
 }
 

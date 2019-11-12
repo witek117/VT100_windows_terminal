@@ -25,8 +25,8 @@ void Slider::refresh_frame()  {
     VT::restore_cursor();
 }
 
-void Slider::refresh_value()  {
-    if (value == prevValue) {
+void Slider::refresh_value(bool refresh_hard = false)  {
+    if (value == prevValue && !refresh_hard) {
         return;
     }
 

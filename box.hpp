@@ -139,7 +139,7 @@ class Box {
      * 
      * @return
      */
-    virtual void refresh_value() = 0;
+    virtual void refresh_value(bool refresh_hard) = 0;
 
     /**
      * @brief This function is used when user do an event on the box, 

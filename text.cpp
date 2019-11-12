@@ -44,8 +44,8 @@ void Text::refresh_frame() {
     VT::restore_cursor();
 }
 
-void Text::refresh_value() {
-    if (current_tab_index == previous_tab_index) {
+void Text::refresh_value(bool refresh_hard = false) {
+    if (current_tab_index == previous_tab_index && !refresh_hard) {
         return;
     }
     VT::save_cursor();

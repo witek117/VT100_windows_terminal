@@ -29,6 +29,9 @@ enum class UNICODE {
     PIPE_R = 0x74,
     PIPE_L = 0x75
 };
+
+bool refresh();
+
 /**
  * @brief This function set pointer to print char function and initialize VT100 terminal
  *

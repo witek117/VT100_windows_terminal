@@ -32,8 +32,8 @@ void Bar::refresh_frame() {
     VT::restore_cursor();
 }
 
-void Bar::refresh_value() {
-    if (prevValue == value)
+void Bar::refresh_value(bool refresh_hard = false) {
+    if (prevValue == value && !refresh_hard)
         return;
     prevValue = value;
 

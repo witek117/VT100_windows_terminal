@@ -27,7 +27,7 @@ void Box::init(int positionX, int positionY) {
 
 void Box::refresh() {
     refresh_frame();
-    refresh_value();
+    refresh_value(false);
 }
 
 void Box::set_active() {
@@ -42,14 +42,14 @@ void Box::set_unactive(bool delPrt) {
 }
 
 bool Box::in_loop() {
-    if (refreshFrameBool == true) {
+    if (refreshFrameBool) {
         refresh_frame();
         refreshFrameBool = false;
     }
 
-    if (refreshValueBool == true) {
+    if (refreshValueBool) {
         event_function();
-        refresh_value();
+        refresh_value(false);
         refreshValueBool = false;
     }
 

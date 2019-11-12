@@ -18,7 +18,7 @@ class Bar : public Box, public Number {
      * 
      * @return 
      */
-    void init();
+    void init() override ;
 
   public:
 
@@ -57,7 +57,7 @@ class Bar : public Box, public Number {
      * 
      * @return
      */
-    void refresh_value() override ;
+    void refresh_value(bool refresh_hard) override ;
 
     /**
      * @brief This function is used when user do an event on the box 
