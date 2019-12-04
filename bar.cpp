@@ -48,10 +48,10 @@ void Bar::refresh_value(bool refresh_hard = false) {
     } else {
         VT::set_colour(VT::COLOUR::GREEN);
     }
-    VT::move_to(positionX + width - 8, positionY); // to przydałoby się kolorować w zależności od wartości
-    VT::print(value);
-    VT::print(unit);
+    VT::move_to(positionX + width - 8, positionY);
+    printValue();
 
+    VT::print(unit);
     VT::print("  ");
 
     if (newBarStatus == oldBarStatus) {

@@ -1,7 +1,7 @@
 #include "number.hpp"
 
 Number::Number(const char *unit, uint16_t divider, int minValue, int maxValue)
-    :  value(0), unit(unit), divider(divider), minValue(minValue), maxValue(maxValue) {}
+    :  value(minValue), unit(unit), divider(divider), minValue(minValue), maxValue(maxValue) {}
 
 void Number::set_max_Value(int maxValue) {
     this->maxValue = maxValue;

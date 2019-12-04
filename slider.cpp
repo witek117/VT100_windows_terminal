@@ -34,7 +34,7 @@ void Slider::refresh_value(bool refresh_hard = false)  {
 
     VT::set_colour(VT::COLOUR::YELLOW);
     VT::move_to(positionX + width - 8, positionY);
-    VT::print(value);
+    printValue();
     VT::print(unit);
     VT::print("  ");
 
