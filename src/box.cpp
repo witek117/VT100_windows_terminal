@@ -27,7 +27,7 @@ void Box::init(int positionX, int positionY) {
 
 void Box::refresh() {
     refreshFrame();
-    refreshValue();
+    refreshValue(false);
 }
 
 void Box::setActive() {
@@ -49,7 +49,7 @@ bool Box::inLoop() {
 
     if (refreshValueBool) {
         eventFunction();
-        refreshValue();
+        refreshValue(false);
         refreshValueBool = false;
     }
 

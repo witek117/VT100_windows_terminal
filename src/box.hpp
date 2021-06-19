@@ -141,7 +141,7 @@ public:
      * 
      * @return
      */
-    virtual void refreshValue() = 0;
+    virtual void refreshValue(bool refreshHard) = 0;
 
     /**
      * @brief This function is used when user do an event on the box, 

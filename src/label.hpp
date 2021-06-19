@@ -47,7 +47,7 @@ public:
      * 
      * @return
      */
-    void refreshValue() override;
+    void refreshValue(bool refreshHard) override;
 
     /**
      * @brief This function is used when user do an event on the box 

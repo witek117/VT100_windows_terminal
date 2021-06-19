@@ -8,8 +8,6 @@ void change_active_window();
 
 void change_active_box(Keyboard_action action);
 
-void refresh_value();
-
 Window *activeWindow = nullptr;
 Window *lastActiveWindow = nullptr;
 
@@ -18,7 +16,6 @@ Box *lastActiveBox = nullptr;
 
 uint8_t index = 0;
 uint8_t recBuff[10];
-// std::array<uint8_t, 10> recBuff;
 
 std::vector<Window> *windows;
 
@@ -28,26 +25,26 @@ void refreshAll() {
     }
 }
 
-void init_all() {
+void initAll() {
     for (auto & window : *windows) {
         window.init();
     }
 }
 
-void refresh_value() {
+void refresh_value(bool refreshHard = false) {
     for (auto & window : *windows) {
-        window.refreshValue();
+        window.refreshValue(refreshHard);
     }
 }
 
 void init(std::vector<Window> *wins) {
     windows = wins;
-    init_all();
+    initAll();
 }
 
 void in_RX_callback(uint8_t received_char) { uart_buffer.append(received_char); }
 
-void read_from_cyclic_Buffer() {
+void readFromCyclicBuffer() {
     if (uart_buffer.isNotEmpty()) {
 
         char received_char = uart_buffer.get_unsafe();
@@ -163,7 +160,7 @@ void change_active_box(Keyboard_action action) {
 }
 
 void run() {
-    read_from_cyclic_Buffer();
+    readFromCyclicBuffer();
     if (activeWindow) {
         if (activeWindow->inLoop()) {
             activeWindow = nullptr;

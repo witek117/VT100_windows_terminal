@@ -43,6 +43,7 @@ namespace window_manager {
      */
     void refreshAll();
 
+    void refresh_value(bool refresh_hard);
 } // namespace window_manager
 
 #endif

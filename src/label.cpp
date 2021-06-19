@@ -27,8 +27,8 @@ void Label::refreshFrame() {
     VT::restoreCursor();
 }
 
-void Label::refreshValue() {
-    if (prevValue == value)
+void Label::refreshValue(bool refreshHard = false) {
+    if (prevValue == value && !refreshHard)
         return;
     prevValue = value;
     VT::saveCursor();

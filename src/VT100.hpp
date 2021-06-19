@@ -34,11 +34,18 @@ namespace VT {
     };
 
     /**
+     * @brief This function refresh VT100 terminal
+     *
+     * @return
+     */
+    bool refresh();
+
+    /**
      * @brief This function set pointer to print char function and initialize VT100 terminal
      *
      * @return
      */
-    void init(void (*print_char_function_)(char));
+    bool init(void (*print_char_function_)(char));
 
     /**
      * @brief This function reset terminal to default

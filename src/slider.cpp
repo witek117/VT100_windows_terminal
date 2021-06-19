@@ -26,8 +26,8 @@ void Slider::refreshFrame() {
     VT::restoreCursor();
 }
 
-void Slider::refreshValue() {
-    if (value == prevValue) {
+void Slider::refreshValue(bool refreshHard = false) {
+    if (value == prevValue && !refreshHard) {
         return;
     }
     prevValue = value;

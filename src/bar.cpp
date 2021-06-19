@@ -33,8 +33,8 @@ void Bar::refreshFrame() {
     VT::restoreCursor();
 }
 
-void Bar::refreshValue() {
-    if (prevValue == value) {
+void Bar::refreshValue(bool refreshHard = false) {
+    if (prevValue == value && !refreshHard) {
         return;
     }
     prevValue = value;

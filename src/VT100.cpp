@@ -1,5 +1,6 @@
 #include "VT100.hpp"
 
+#include <utility>
 #include <cstdio>
 
 void (*printCharFunction)(char);
@@ -8,22 +9,27 @@ int actualX;
 int actualY;
 
 namespace VT {
-
-    void setPrintFunction(void (*printCharFunction_)(char)) {
-        if (printCharFunction_) {
-            printCharFunction = printCharFunction_;
-        }
-    }
-
     void reset() {
         print(esc);
         print('c');
     }
 
-    void init(void (*printCharFunct)(char)) {
-        setPrintFunction(printCharFunct);
-        reset();
-        hideCursor();
+    bool refresh() {
+        if (printCharFunction) {
+            reset();
+            hideCursor();
+            return true;
+        }
+        return false;
+    }
+
+    bool init(void (*printCharFunct)(char)) {
+        if (printCharFunct) {
+            printCharFunction = printCharFunct;
+            refresh();
+            return true;
+        }
+        return false;
     }
 
     void print(char c) {

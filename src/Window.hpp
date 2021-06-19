@@ -99,7 +99,7 @@ public:
      * 
      * @return
      */
-    void refreshValue();
+    void refreshValue(bool refreshHard);
 
     /**
      * @brief This function is used ONLY IN LOOP to refreash frame and value of the boxes in window

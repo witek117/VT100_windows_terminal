@@ -106,9 +106,9 @@ void Window::printFrame(VT::COLOUR frameColor) {
     VT::restoreCursor();
 }
 
-void Window::refreshValue() {
+void Window::refreshValue(bool refreshHard = false) {
     for (auto & box : boxes) {
-        box->refreshValue();
+        box->refreshValue(refreshHard);
     }
 }
 
