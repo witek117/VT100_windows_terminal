@@ -12,7 +12,7 @@ Window::Window(const char *title, int positionX, int positionY, int width, int h
 void Window::init() {
     titleLen = strlen(title);
 
-    if (boxes.size() == 0) {
+    if (boxes.empty()) {
         return;
     }
 
@@ -20,12 +20,12 @@ void Window::init() {
 
     int16_t maxLenLabel = 0;
 
-    for (uint8_t i = 0; i < boxes.size(); i++) {
-        if (boxes[i]->type == Box::TYPE::TEXT) {
+    for (auto & box : boxes) {
+        if (box->type == Box::TYPE::TEXT) {
             text_box_found = true;
-            boxes[i]->calculate_width();
-            if (boxes[i]->get_width() > maxLenLabel) {
-                maxLenLabel = boxes[i]->get_width();
+            box->calculateWidth();
+            if (box->getWidth() > maxLenLabel) {
+                maxLenLabel = box->getWidth();
             }
         }
     }
@@ -48,93 +48,93 @@ void Window::init() {
         }
     }
 
-    VT::save_cursor();
-    VT::set_colour(VT::COLOUR::BLUE);
+    VT::saveCursor();
+    VT::setColour(VT::COLOUR::BLUE);
 
     if (text_box_found) {
         posY += 2;
-        VT::move_to(positionX + 1, positionY + posY);
+        VT::moveTo(positionX + 1, positionY + posY);
         VT::repeat('-', width - 1);
     }
 
-    for (uint8_t i = 0; i < boxes.size(); i++) {
-        if (boxes[i]->type != Box::TYPE::TEXT) {
-            boxes[i]->init(positionX + 1, positionY + posY + 1, width - 4);
+    for (auto & box : boxes) {
+        if (box->type != Box::TYPE::TEXT) {
+            box->init(positionX + 1, positionY + posY + 1, width - 4);
 
-            posY += boxes[i]->get_height() + 1;
+            posY += box->getHeight() + 1;
 
-            VT::move_to(positionX + 1, positionY + posY);
+            VT::moveTo(positionX + 1, positionY + posY);
 
-            VT::repeat('-', boxes[i]->get_width() + 3);
+            VT::repeat('-', box->getWidth() + 3);
         }
     }
 
-    VT::restore_cursor();
+    VT::restoreCursor();
 }
 
-void Window::print_frame(VT::COLOUR frameColour) {
-    VT::save_cursor();
-    VT::set_colour(frameColour);
-    VT::set_attritute(VT::ATTRIBUTE::BRIGHT);
+void Window::printFrame(VT::COLOUR frameColor) {
+    VT::saveCursor();
+    VT::setColour(frameColor);
+    VT::setAttribute(VT::ATTRIBUTE::BRIGHT);
 
-    VT::move_to(positionX, positionY);
-    VT::begin_unicode();
+    VT::moveTo(positionX, positionY);
+    VT::beginUnicode();
     VT::print(VT::UNICODE::LU_CORNER);        // left up corner
     VT::repeat(VT::UNICODE::DASH, width - 1); // bar
     VT::print(VT::UNICODE::RU_CORNER);        // right up corner
 
     for (int i = 1; i < height; i++) {
-        VT::move_to(positionX, positionY + i);
+        VT::moveTo(positionX, positionY + i);
         VT::print(VT::UNICODE::PIPE);
     }
 
-    VT::move_to(positionX, positionY + height);
+    VT::moveTo(positionX, positionY + height);
     VT::print(VT::UNICODE::LD_CORNER);        // left down corner
     VT::repeat(VT::UNICODE::DASH, width - 1); // up bar
     VT::print(VT::UNICODE::RD_CORNER);        // right down corner
 
     for (int i = 1; i < height; i++) {
-        VT::move_to(positionX + width, positionY + i);
+        VT::moveTo(positionX + width, positionY + i);
         VT::print(VT::UNICODE::PIPE);
     }
-    VT::end_unicode();
-    VT::move_to(positionX + (width / 2) - (titleLen / 2) - 1, positionY);
+    VT::endUnicode();
+    VT::moveTo(positionX + (width / 2) - (titleLen / 2) - 1, positionY);
     VT::print(' ');
-    VT::set_colour(VT::COLOUR::WHITE);
+    VT::setColour(VT::COLOUR::WHITE);
     VT::print(title);
     VT::print(' ');
-    VT::restore_cursor();
+    VT::restoreCursor();
 }
 
-void Window::refresh_value() {
-    for (uint8_t i = 0; i < boxes.size(); i++) {
-        boxes[i]->refresh_value();
+void Window::refreshValue() {
+    for (auto & box : boxes) {
+        box->refreshValue();
     }
 }
 
 void Window::refresh() {
-    refresh_frame();
+    refreshFrame();
 
-    for (uint8_t i = 0; i < boxes.size(); i++) {
-        boxes[i]->refresh();
+    for (auto & box : boxes) {
+        box->refresh();
     }
 }
 
-void Window::refresh_frame() {
-    VT::save_cursor();
+void Window::refreshFrame() {
+    VT::saveCursor();
     if (isActive) {
-        print_frame(VT::COLOUR::GREEN);
+        printFrame(VT::COLOUR::GREEN);
     } else {
-        print_frame(VT::COLOUR::BLUE);
+        printFrame(VT::COLOUR::BLUE);
     }
-    VT::restore_cursor();
+    VT::restoreCursor();
 }
 
-void Window::add_box(Box *box) { boxes.push_back(box); }
+void Window::addBox(Box *box) { boxes.push_back(box); }
 
-bool Window::in_loop() {
-    if (refreshFrameBool == true) {
-        refresh_frame();
+bool Window::inLoop() {
+    if (refreshFrameBool) {
+        refreshFrame();
         refreshFrameBool = false;
     }
 
@@ -145,12 +145,12 @@ bool Window::in_loop() {
     return false;
 }
 
-void Window::set_active() {
+void Window::setActive() {
     isActive = true;
     refreshFrameBool = true;
 }
 
-void Window::set_unactive(bool delPrt_) {
+void Window::setNonActive(bool delPrt_) {
     delPrt = delPrt_;
     isActive = false;
     refreshFrameBool = true;

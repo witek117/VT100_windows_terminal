@@ -15,7 +15,7 @@ class Window {
     const char *title;              // window title
     uint8_t titleLen = 0;           //
 
-    int positionX;            
+    int positionX;
     int positionY;
     int width;
     int height;
@@ -26,10 +26,10 @@ class Window {
     bool delPrt = false;            // set in interrupt, use in loop to tell window_manger to delete pointer to this instance, e.g. after quit
     bool isActive = false;          // when is set, color of box e.g. can be changed, to show that it is active current box
 
-    void print_frame(VT::COLOUR frameColor);
-    
- 
-  public:
+    void printFrame(VT::COLOUR frameColor);
+
+
+public:
     std::vector<Box *> boxes;       // vectors of pointers to boxes 
 
     /**
@@ -57,34 +57,34 @@ class Window {
      * @return 
      */
     void init();
-    
+
     /**
      * @brief This function returns bool statement describes possibility to edit the box
      * 
      * @return isEditable
      */
-    bool get_editable() { return isEditable; }
+    bool getEditable() const { return isEditable; }
 
     /**
      * @brief This function sets the bool statement isActive, can be used in interrupt
      * 
      * @return
-     */  
-    void set_active();
+     */
+    void setActive();
 
     /**
      * @brief This function resets the bool statement isActive, can be used in interrupt
      * 
      * @param if delPrt is set, window manager should delete a pointer to this box
      * @return
-     */  
-    void set_unactive(bool delPrt_ = false);   
+     */
+    void setNonActive(bool delPrt_ = false);
 
     /**
      * @brief This function refreashes frame and value of the box on console
      * 
      * @return
-     */ 
+     */
     void refresh();
 
     /**
@@ -92,21 +92,21 @@ class Window {
      * 
      * @return
      */
-    void refresh_frame();
+    void refreshFrame();
 
     /**
      * @brief This function refreshes the value of of the boxes in window
      * 
      * @return
      */
-    void refresh_value();
+    void refreshValue();
 
     /**
      * @brief This function is used ONLY IN LOOP to refreash frame and value of the boxes in window
      * 
      * @return bool statement delPtr
-     */  
-    bool in_loop();
+     */
+    bool inLoop();
 
 
     /**
@@ -114,11 +114,8 @@ class Window {
      * 
      * @return
      */
-    void add_box(Box *box);
-
-    
+    void addBox(Box *box);
 };
-
 
 
 #endif

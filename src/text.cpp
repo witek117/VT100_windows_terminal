@@ -1,15 +1,15 @@
 #include "text.hpp"
 
 Text::Text(const char *title, bool isEditable, void (*event_function)())
-    : Box(title, isEditable, event_function, 2){
+        : Box(title, isEditable, event_function, 2) {
     type = Box::TYPE::TEXT;
 }
 
-size_t Text::get_value_index() {
+size_t Text::getValueIndex() {
     return current_tab_index;
 }
 
-void Text::calculate_width() {
+void Text::calculateWidth() {
     width += strlen(title);
 
     size_t length = 0;
@@ -22,43 +22,43 @@ void Text::calculate_width() {
     width += max_text_length;
 }
 
-void Text::add_text(const char *text) { texts.push_back(text); }
+void Text::addText(const char *text) { texts.push_back(text); }
 
 void Text::init(int positionX, int positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
 }
 
-void Text::refresh_frame() {
-    VT::save_cursor();
+void Text::refreshFrame() {
+    VT::saveCursor();
 
     if (isActive) {
-        VT::set_colour(VT::COLOUR::GREEN);
+        VT::setColour(VT::COLOUR::GREEN);
     } else {
-        VT::set_colour(VT::COLOUR::WHITE);
+        VT::setColour(VT::COLOUR::WHITE);
     }
 
-    VT::move_to(positionX, positionY + 1);
+    VT::moveTo(positionX, positionY + 1);
     VT::print(title);
     VT::print(": ");
-    VT::restore_cursor();
+    VT::restoreCursor();
 }
 
-void Text::refresh_value() {
+void Text::refreshValue() {
     if (current_tab_index == previous_tab_index) {
         return;
     }
-    VT::save_cursor();
+    VT::saveCursor();
     size_t title_len = strlen(title);
-    VT::move_to(positionX + title_len + 3, positionY + 1);
-    VT::set_colour(VT::COLOUR::YELLOW);
+    VT::moveTo(positionX + title_len + 3, positionY + 1);
+    VT::setColour(VT::COLOUR::YELLOW);
     VT::print(texts[current_tab_index]);
     VT::repeat(' ', max_text_length - strlen(texts[current_tab_index]));
-    VT::restore_cursor();
+    VT::restoreCursor();
     previous_tab_index = current_tab_index;
 }
 
-void Text::keyboard_event(const uint8_t *buff, uint8_t numOfKeys) {
+void Text::keyboardEvent(const uint8_t *buff, uint8_t numOfKeys) {
     if (numOfKeys == 3) {
         if (buff[2] == 67) {
             increase();

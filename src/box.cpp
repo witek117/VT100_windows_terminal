@@ -6,11 +6,11 @@ void Box::init() {}
 
 Box::Box(const char *title, bool isEditable) : title(title) { this->isEditable = isEditable; }
 
-Box::Box(const char *title, bool isEditable, void (*event_function)(), uint8_t height) : title(title) {
+Box::Box(const char *title, bool isEditable, void (*eventFunction)(), uint8_t height) : title(title) {
     this->isEditable = isEditable;
     this->height = height;
-    if (event_function) {
-        this->event_function_pointer = event_function;
+    if (eventFunction) {
+        this->eventFunctionPointer = eventFunction;
     }
 }
 
@@ -26,30 +26,30 @@ void Box::init(int positionX, int positionY) {
 }
 
 void Box::refresh() {
-    refresh_frame();
-    refresh_value();
+    refreshFrame();
+    refreshValue();
 }
 
-void Box::set_active() {
+void Box::setActive() {
     refreshFrameBool = true;
     isActive = true;
 }
 
-void Box::set_unactive(bool delPrt) {
+void Box::setNotActive(bool delPrt) {
     this->delPrt = delPrt;
     refreshFrameBool = true;
     isActive = false;
 }
 
-bool Box::in_loop() {
-    if (refreshFrameBool == true) {
-        refresh_frame();
+bool Box::inLoop() {
+    if (refreshFrameBool) {
+        refreshFrame();
         refreshFrameBool = false;
     }
 
-    if (refreshValueBool == true) {
-        event_function();
-        refresh_value();
+    if (refreshValueBool) {
+        eventFunction();
+        refreshValue();
         refreshValueBool = false;
     }
 

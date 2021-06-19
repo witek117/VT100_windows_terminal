@@ -1,25 +1,26 @@
-set(NAME windows_terminal)
+cmake_minimum_required(VERSION 3.15)
 
-add_library(${NAME} STATIC
-    bar.cpp
-    bar.hpp
-    box.cpp
-    box.hpp
-    cyclicBuffer.hpp
-    label.cpp
-    label.hpp
-    number.cpp
-    number.hpp
-    slider.cpp
-    slider.hpp
-    text.cpp
-    text.hpp
-    VT100.cpp
-    VT100.hpp
-    Window.cpp
-    Window.hpp
-    window_manager.cpp
-    window_manager.hpp
-)
+if(DEFINED ${ONLY_LIBRARY})
+    add_subdirectory(src)
+else()
+    project(VT100 CXX C)
+    set (CMAKE_CXX_STANDARD 17)
 
-target_include_directories(${NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    add_subdirectory(external)
+    add_subdirectory(src)
+
+    add_executable(WindowsTerminal_unitTests
+            tests/main.cpp
+            tests/keyPress.cpp
+            )
+
+    target_link_libraries(WindowsTerminal_unitTests
+            WindowsTerminal
+            gtest
+            gmock
+            gtest_main
+            )
+
+    SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Werror=unused-parameter")
+
+endif()

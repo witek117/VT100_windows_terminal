@@ -10,13 +10,11 @@ void change_active_box(Keyboard_action action);
 
 void refresh_value();
 
-void refresh_value();
+Window *activeWindow = nullptr;
+Window *lastActiveWindow = nullptr;
 
-Window *activeWindow = NULL;
-Window *lastActiveWindow = NULL;
-
-Box *activeBox = NULL;
-Box *lastActiveBox = NULL;
+Box *activeBox = nullptr;
+Box *lastActiveBox = nullptr;
 
 uint8_t index = 0;
 uint8_t recBuff[10];
@@ -24,21 +22,21 @@ uint8_t recBuff[10];
 
 std::vector<Window> *windows;
 
-void refresh_all() {
-    for (size_t i = 0; i < windows->size(); i++) {
-        windows->at(i).refresh();
+void refreshAll() {
+    for (auto & window : *windows) {
+        window.refresh();
     }
 }
 
 void init_all() {
-    for (size_t i = 0; i < windows->size(); i++) {
-        windows->at(i).init();
+    for (auto & window : *windows) {
+        window.init();
     }
 }
 
 void refresh_value() {
-    for (size_t i = 0; i < windows->size(); i++) {
-        windows->at(i).refresh_value();
+    for (auto & window : *windows) {
+        window.refreshValue();
     }
 }
 
@@ -70,14 +68,14 @@ void read_from_cyclic_Buffer() {
                     change_active_box(static_cast<Keyboard_action>(received_char));
 
                     if (lastActiveBox) {
-                        lastActiveBox->set_unactive();
+                        lastActiveBox->setNotActive();
                     }
 
                     if (activeBox) {
-                        activeBox->set_active();
+                        activeBox->setActive();
                     }
                 } else if (activeBox) {
-                    activeBox->keyboard_event(recBuff, index);
+                    activeBox->keyboardEvent(recBuff, index);
                 }
             }
 
@@ -86,20 +84,20 @@ void read_from_cyclic_Buffer() {
         } else {
             if (received_char == static_cast<uint8_t>(Keyboard_action::TAB)) {
                 if (activeBox) {
-                    activeBox->set_unactive(true); // tu chyba było bez true
+                    activeBox->setNotActive(true); // tu chyba było bez true
                 }
                 change_active_window();
             } else if (received_char == static_cast<uint8_t>(Keyboard_action::QUIT)) {
                 if (activeBox) {
-                    activeBox->set_unactive(true);
+                    activeBox->setNotActive(true);
                 } else {
                     if (activeWindow) {
-                        activeWindow->set_unactive(true);
+                        activeWindow->setNonActive(true);
                     }
                 }
             } else {
                 if (activeBox) {
-                    activeBox->keyboard_event(recBuff, 1);
+                    activeBox->keyboardEvent(recBuff, 1);
                 }
             }
             index = 0;
@@ -113,10 +111,10 @@ void change_active_window() {
 
     if (active_window_index == 255 && windows_size > 0) {
         for (size_t i = 0; i < windows_size; i++) {
-            if (windows->at(i).get_editable()) {
+            if (windows->at(i).getEditable()) {
                 active_window_index = i;
                 activeWindow = &(windows->at(active_window_index));
-                activeWindow->set_active();
+                activeWindow->setActive();
                 return;
             }
         }
@@ -128,12 +126,12 @@ void change_active_window() {
 
             index = (i + active_window_index + 1) % windows_size;
 
-            if (windows->at(index).get_editable()) {
+            if (windows->at(index).getEditable()) {
                 lastActiveWindow = &(windows->at(active_window_index));
-                lastActiveWindow->set_unactive();
+                lastActiveWindow->setNonActive();
                 active_window_index = index;
                 activeWindow = &(windows->at(active_window_index));
-                activeWindow->set_active();
+                activeWindow->setActive();
                 return;
             }
         }
@@ -144,7 +142,7 @@ void change_active_window() {
 void change_active_box(Keyboard_action action) {
     size_t bsize = activeWindow->boxes.size();
     for (size_t j = 0; j < bsize; j++) {
-        if (activeWindow->boxes[j]->get_active()) { // tu ma być chyba editable 
+        if (activeWindow->boxes[j]->getActive()) { // tu ma być chyba editable
 
             if (action == Keyboard_action::ARROW_DOWN && j < (bsize - 1)) {
                 j++;
@@ -159,7 +157,7 @@ void change_active_box(Keyboard_action action) {
         }
     }
 
-    if (activeBox == NULL && bsize > 0) {
+    if (activeBox == nullptr && bsize > 0) {
         activeBox = activeWindow->boxes[0];
     }
 }
@@ -167,24 +165,24 @@ void change_active_box(Keyboard_action action) {
 void run() {
     read_from_cyclic_Buffer();
     if (activeWindow) {
-        if (activeWindow->in_loop()) {
+        if (activeWindow->inLoop()) {
             activeWindow = nullptr;
         }
     }
 
     if (lastActiveWindow) {
-        lastActiveWindow->in_loop();
+        lastActiveWindow->inLoop();
         lastActiveWindow = nullptr;
     }
 
     if (activeBox) {
-        if (activeBox->in_loop()) {
+        if (activeBox->inLoop()) {
             activeBox = nullptr;
         }
     }
 
     if (lastActiveBox) {
-        lastActiveBox->in_loop();
+        lastActiveBox->inLoop();
         lastActiveBox = nullptr;
     }
 

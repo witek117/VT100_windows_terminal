@@ -11,7 +11,7 @@ class Text : public Box {
     size_t max_text_length = 0;
     std::vector<const char *> texts;
 
-  public:
+public:
 
     /**
      * @brief This is constructor 
@@ -20,7 +20,7 @@ class Text : public Box {
      * @param bool statement describes possibility to edit the box
      * @param pointer to function which is used when value of the box is changed
      */
-    Text(const char *title, bool isEditable, void (*event_function)());
+    Text(const char *title, bool isEditable, void (*eventFunction)());
 
     /**
      * @brief This is default destructor
@@ -30,21 +30,21 @@ class Text : public Box {
     /**
      * @brief This function calculates max width of box, depending on text content in texts vector
      */
-    void calculate_width() override ;
+    void calculateWidth() override;
 
     /**
      * @brief This function prints frame of the box on console, IN LOOP USE ONLY
      * 
      * @return
      */
-    void refresh_frame() override ;
+    void refreshFrame() override;
 
     /**
      * @brief This function prints value of the box on console, IN LOOP USE ONLY
      * 
      * @return
      */
-    void refresh_value() override ;
+    void refreshValue() override;
 
     /**
      * @brief This function is used when user do an event on the box 
@@ -53,7 +53,7 @@ class Text : public Box {
      * @param num of keys
      * @return
      */
-    void keyboard_event(const uint8_t *buff, uint8_t numOfKeys) override ;
+    void keyboardEvent(const uint8_t *buff, uint8_t numOfKeys) override;
 
     /**
      * @brief This function initializes the box
@@ -62,7 +62,7 @@ class Text : public Box {
      * @param position Y on console 
      * @return 
      */
-    void init(int positionX, int positionY) override ;
+    void init(int positionX, int positionY) override;
 
     /**
      * @brief This function increase current_tab_index by one
@@ -77,20 +77,20 @@ class Text : public Box {
      * @return
      */
     void decrease();
-    
+
     /**
      * @brief This function returns current current_tab_index
      * 
      * @return current_tab_index
      */
-    size_t get_value_index();
+    size_t getValueIndex();
 
     /**
      * @brief This function adds new text do texts vector
      * 
      * @return
      */
-    void add_text(const char *text) ;
+    void addText(const char *text);
 };
 
 #endif // TEXT_HPP_

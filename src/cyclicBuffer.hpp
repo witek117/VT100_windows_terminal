@@ -34,9 +34,12 @@
 #include <cstdint>
 #include <cstring>
 
-template <class T> class CyclicBuffer {
-  public:
-    constexpr CyclicBuffer(T *const data, size_t size) noexcept : dataTab(data), size(size), writePos(0), readPos(0), count(0) {}
+template<class T>
+class CyclicBuffer {
+public:
+    constexpr CyclicBuffer(T *const data, size_t size) noexcept: dataTab(data), size(size), writePos(0), readPos(0),
+                                                                 count(0) {}
+
     inline bool append(T data) noexcept __attribute__((always_inline)) {
         if (isFull() == false) {
             append_unsafe(data);
@@ -44,11 +47,13 @@ template <class T> class CyclicBuffer {
         }
         return false;
     }
+
     inline void append_unsafe(T data) noexcept __attribute__((always_inline)) {
         count++;
         writePos = (writePos + 1) % size;
         dataTab[writePos] = data;
     }
+
     inline size_t write(const T *data, size_t size) noexcept {
         if (isFull() == false) {
             if (size > getFreeSpace())
@@ -70,6 +75,7 @@ template <class T> class CyclicBuffer {
         }
         return 0;
     }
+
     inline size_t read(T *data, size_t size) noexcept {
         if (isEmpty() == false) {
             if (size > getLength())
@@ -138,6 +144,7 @@ template <class T> class CyclicBuffer {
         }
         return 0;
     }
+
     inline T get_unsafe(void) noexcept __attribute__((always_inline)) {
         count--;
         readPos = (readPos + 1) % size;
@@ -165,17 +172,24 @@ template <class T> class CyclicBuffer {
     }
 
     inline bool isEmpty(void) const noexcept __attribute__((always_inline)) { return count == 0; }
+
     inline bool isNotEmpty(void) const noexcept __attribute__((always_inline)) { return count != 0; }
+
     inline bool isFull(void) const noexcept __attribute__((always_inline)) { return count == size; }
+
     inline void flush(void) noexcept __attribute__((always_inline)) {
         writePos = 0;
         readPos = 0;
         count = 0;
     }
+
     // todo optimalize
     inline size_t getLength(void) const noexcept __attribute__((always_inline)) { return count; }
+
     inline size_t getSize(void) const noexcept __attribute__((always_inline)) { return size; }
+
     inline size_t getFreeSpace() const noexcept __attribute__((always_inline)) { return getSize() - getLength(); }
+
     inline size_t moveWritePointer(size_t positions) noexcept __attribute__((always_inline)) {
         if (positions > getFreeSpace()) {
             positions = getFreeSpace();
@@ -185,12 +199,12 @@ template <class T> class CyclicBuffer {
         return positions;
     }
 
-  private:
+private:
     T *const dataTab;
     const size_t size;
     volatile size_t writePos, readPos, count;
 
-  public:
+public:
     T *getDataPointer() noexcept { return &dataTab[(readPos + 1) % size]; }
 
     T *getWritePointer() noexcept { return &dataTab[(writePos + 1) % size]; }
@@ -204,11 +218,13 @@ template <class T> class CyclicBuffer {
     const T *getBufferPointer() const noexcept { return dataTab; }
 };
 
-template <class T, size_t size> class CyclicBuffer_data : public CyclicBuffer<T> {
-  public:
+template<class T, size_t size>
+class CyclicBuffer_data : public CyclicBuffer<T> {
+public:
     CyclicBuffer_data() : CyclicBuffer<T>(data, size) {}
 
-  private:
+private:
     T data[size];
 };
+
 #endif // _MICROHAL_CYCLICBUFFER_H_

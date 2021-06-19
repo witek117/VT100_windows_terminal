@@ -8,15 +8,15 @@
  * @brief This class describes Number class
  */
 class Number {
-  protected:
-    int prevValue = -1;         // to note the change between new value and old value, used in refresh_value function
+protected:
+    int prevValue = -1;         // to note the change between new value and old value, used in refreshValue function
     int value;                  // current value
     const char *unit;           // to const char unit, e.g. "mV", "A"  
     uint16_t divider;           // for value, to display 1.234mV, value should be 1234 and divider 1000
     int minValue;               // minimum value
     int maxValue;               // maximum value
 
-  public:
+public:
 
     /**
      * @brief This is constructor 
@@ -34,7 +34,7 @@ class Number {
      * @param new maximum value
      * @return
      */
-    void set_max_Value(int maxValue);
+    void setMaxValue(int maxValue);
 
     /**
      * @brief This function sets minimum value that can be kept
@@ -43,21 +43,21 @@ class Number {
      * @param new minimum value
      * @return
      */
-    void set_min_Value(int minValue);
+    void setMinValue(int minValue);
 
     /**
      * @brief This function returns current value
      * 
      * @return value
      */
-    int get_value();
+    int get();
 
     /**
      * @brief This function prints value on console, depending on divider
      * 
      * @return
      */
-    void printValue();
+    void printValue() const;
 
     /**
      * @brief This function increase value by one

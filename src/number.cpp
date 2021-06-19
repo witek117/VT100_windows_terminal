@@ -1,21 +1,21 @@
 #include "number.hpp"
 
 Number::Number(const char *unit, uint16_t divider, int minValue, int maxValue)
-    :  value(0), unit(unit), divider(divider), minValue(minValue), maxValue(maxValue) {}
+        : value(minValue), unit(unit), divider(divider), minValue(minValue), maxValue(maxValue) {}
 
-void Number::set_max_Value(int maxValue) {
+void Number::setMaxValue(int maxValue) {
     this->maxValue = maxValue;
 }
 
-void Number::set_min_Value(int minValue) {
+void Number::setMinValue(int minValue) {
     this->minValue = minValue;
 }
 
-int Number::get_value() {
+int Number::get() {
     return value;
 }
 
-void Number::printValue() {
+void Number::printValue() const {
     if (divider == 1) {
         VT::print(prevValue);
     } else if (divider == 10) {

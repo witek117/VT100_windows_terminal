@@ -7,9 +7,9 @@
 
 
 class Slider : public Box, public Number {
-    uint16_t oldBarStatus = std::numeric_limits<short>::max(); // to note the change between new value and old value, used in refresh_value function
+    uint16_t oldBarStatus = std::numeric_limits<short>::max(); // to note the change between new value and old value, used in refreshValue function
 
-  public:
+public:
 
     /**
      * @brief This is constructor 
@@ -22,7 +22,8 @@ class Slider : public Box, public Number {
      * @param minimum value, default 0
      * @param maximum value, default 100
      */
-    Slider(const char *title, const char *unit, bool isEditable, void (*event_function)(), uint16_t divider = 1, int min = 0, int max = 100);
+    Slider(const char *title, const char *unit, bool isEditable, void (*eventFunction)(), uint16_t divider = 1,
+           int min = 0, int max = 100);
 
     /**
      * @brief This is default destructor
@@ -32,21 +33,21 @@ class Slider : public Box, public Number {
     /**
      * @brief This function is required by Box class, but nothing to do here
      */
-    void calculate_width() override {}
+    void calculateWidth() override {}
 
     /**
      * @brief This function prints frame of the box on console, IN LOOP USE ONLY
      * 
      * @return
      */
-    void refresh_frame() override ;
+    void refreshFrame() override;
 
     /**
      * @brief This function prints value of the box on console, IN LOOP USE ONLY
      * 
      * @return
      */
-    void refresh_value() override ;
+    void refreshValue() override;
 
     /**
      * @brief This function is used when user do an event on the box 
@@ -55,7 +56,7 @@ class Slider : public Box, public Number {
      * @param num of keys
      * @return
      */
-    void keyboard_event(const uint8_t *buff, uint8_t numOfKeys) override ;
+    void keyboardEvent(const uint8_t *buff, uint8_t numOfKeys) override;
 };
 
 #endif // SLIDER_HPP_
