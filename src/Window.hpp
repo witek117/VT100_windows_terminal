@@ -11,6 +11,8 @@
 #include "slider.hpp"
 #include "text.hpp"
 
+
+
 class Window {
     const char *title;              // window title
     uint8_t titleLen = 0;           //
