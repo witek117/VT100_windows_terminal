@@ -1,10 +1,7 @@
 #ifndef BOX_HPP_
 #define BOX_HPP_
 
-#include <array>
 #include <cinttypes>
-#include <vector>
-
 #include "VT100.hpp"
 
 /**

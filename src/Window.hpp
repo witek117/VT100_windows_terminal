@@ -2,7 +2,6 @@
 #define WINDOW_HPP_
 
 #include <cstring>
-#include <vector>
 
 #include "VT100.hpp"
 #include "bar.hpp"
@@ -30,16 +29,10 @@ class Window {
 
     void printFrame(VT::COLOUR frameColor);
 
-
+    constexpr static uint8_t maxBoxesCount = 10;
+    Box* boxes[maxBoxesCount] {nullptr};
+    uint8_t actualBoxesCount = 0;
 public:
-    std::vector<Box *> boxes;       // vectors of pointers to boxes 
-
-    /**
-     * @brief This coppy constructor
-     * 
-     * @param reference to window
-     */
-    Window(const Window &win);
 
     /**
      * @brief This constructor is a expanded constructor
@@ -59,6 +52,35 @@ public:
      * @return 
      */
     void init();
+
+    /**
+     *
+     */
+     uint8_t getBoxesCont() const {
+        return actualBoxesCount;
+     }
+
+     /**
+      *
+      */
+      Box* getBoxPointer(uint8_t index) {
+          if (index < actualBoxesCount) {
+              return boxes[index];
+          } else {
+              return nullptr;
+          }
+      }
+
+      /**
+       *
+       */
+       bool getActiveBox(uint8_t index) {
+          if (index < actualBoxesCount) {
+              return boxes[index]->getActive();
+          } else {
+              return false;
+          }
+       }
 
     /**
      * @brief This function returns bool statement describes possibility to edit the box

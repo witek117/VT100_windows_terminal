@@ -129,9 +129,9 @@ private:
     }
 
     void change_active_box(Keyboard_action action) {
-        size_t bsize = activeWindow->boxes.size();
+        size_t bsize = activeWindow->getBoxesCont();
         for (size_t j = 0; j < bsize; j++) {
-            if (activeWindow->boxes[j]->getActive()) { // tu ma być chyba editable
+            if (activeWindow->getActiveBox(j)) { // tu ma być chyba editable
 
                 if (action == Keyboard_action::ARROW_DOWN && j < (bsize - 1)) {
                     j++;
@@ -141,13 +141,13 @@ private:
                     j--;
                 }
 
-                activeBox = activeWindow->boxes[j];
+                activeBox = activeWindow->getBoxPointer(j);
                 break;
             }
         }
 
         if (activeBox == nullptr && bsize > 0) {
-            activeBox = activeWindow->boxes[0];
+            activeBox = activeWindow->getBoxPointer(0);
         }
     }
 

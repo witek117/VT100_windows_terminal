@@ -4,6 +4,7 @@
 #include "VT100.hpp"
 #include "box.hpp"
 #include <cstring>
+#include <vector>
 
 class Text : public Box {
     size_t current_tab_index = 0;

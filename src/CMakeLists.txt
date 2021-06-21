@@ -16,7 +16,6 @@ add_library(WindowsTerminal STATIC
     VT100.hpp
     Window.cpp
     Window.hpp
-    window_manager.cpp
     window_manager.hpp
 )
 

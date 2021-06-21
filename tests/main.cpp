@@ -2,10 +2,6 @@
 
 #include "window_manager.hpp"
 #include "VT100.hpp"
-//#include "static_vector.h"
-#include "small_static_array.h"
-
-
 
 int key_press();
 

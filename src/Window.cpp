@@ -1,8 +1,5 @@
 #include "Window.hpp"
 
-Window::Window(const Window &win)
-    : title(win.title), positionX(win.positionX), positionY(win.positionY), width(win.width), height(win.height), isEditable(win.isEditable),
-        boxes(win.boxes) {}
 
 Window::Window(const char *title, int positionX, int positionY, int width, int height, bool isEditlable)
     : title(title), positionX(positionX), positionY(positionY), width(width), height(height) {
@@ -12,7 +9,7 @@ Window::Window(const char *title, int positionX, int positionY, int width, int h
 void Window::init() {
     titleLen = strlen(title);
 
-    if (boxes.empty()) {
+    if (actualBoxesCount == 0) {
         return;
     }
 
@@ -20,12 +17,12 @@ void Window::init() {
 
     int16_t maxLenLabel = 0;
 
-    for (auto & box : boxes) {
-        if (box->type == Box::TYPE::TEXT) {
+    for (uint8_t i = 0; i < actualBoxesCount; i++) {
+        if (boxes[i]->type == Box::TYPE::TEXT) {
             text_box_found = true;
-            box->calculateWidth();
-            if (box->getWidth() > maxLenLabel) {
-                maxLenLabel = box->getWidth();
+            boxes[i]->calculateWidth();
+            if (boxes[i]->getWidth() > maxLenLabel) {
+                maxLenLabel = boxes[i]->getWidth();
             }
         }
     }
@@ -34,7 +31,7 @@ void Window::init() {
     uint8_t colNum = width / maxLenLabel;
     uint16_t posX = 2, posY = 1;
 
-    for (uint8_t i = 0; i < boxes.size(); i++) {
+    for (uint8_t i = 0; i < actualBoxesCount; i++) {
         if (boxes[i]->type == Box::TYPE::TEXT) {
             boxes[i]->init(positionX + posX, positionY + posY);
             boxes[i]->refresh();
@@ -57,15 +54,15 @@ void Window::init() {
         VT::repeat('-', width - 1);
     }
 
-    for (auto & box : boxes) {
-        if (box->type != Box::TYPE::TEXT) {
-            box->init(positionX + 1, positionY + posY + 1, width - 4);
+    for (uint8_t i = 0; i < actualBoxesCount; i++) {
+        if (boxes[i]->type != Box::TYPE::TEXT) {
+            boxes[i]->init(positionX + 1, positionY + posY + 1, width - 4);
 
-            posY += box->getHeight() + 1;
+            posY += boxes[i]->getHeight() + 1;
 
             VT::moveTo(positionX + 1, positionY + posY);
 
-            VT::repeat('-', box->getWidth() + 3);
+            VT::repeat('-', boxes[i]->getWidth() + 3);
         }
     }
 
@@ -107,16 +104,16 @@ void Window::printFrame(VT::COLOUR frameColor) {
 }
 
 void Window::refreshValue(bool refreshHard = false) {
-    for (auto & box : boxes) {
-        box->refreshValue(refreshHard);
+    for (uint8_t i = 0; i < actualBoxesCount; i++) {
+        boxes[i]->refreshValue(refreshHard);
     }
 }
 
 void Window::refresh() {
     refreshFrame();
 
-    for (auto & box : boxes) {
-        box->refresh();
+    for (uint8_t i = 0; i < actualBoxesCount; i++) {
+        boxes[i]->refresh();
     }
 }
 
@@ -130,7 +127,12 @@ void Window::refreshFrame() {
     VT::restoreCursor();
 }
 
-void Window::addBox(Box *box) { boxes.push_back(box); }
+void Window::addBox(Box *box) {
+    if (actualBoxesCount < maxBoxesCount) {
+        boxes[actualBoxesCount] = box;
+        actualBoxesCount++;
+    }
+}
 
 bool Window::inLoop() {
     if (refreshFrameBool) {

@@ -1,6 +1,5 @@
 #include "VT100.hpp"
 
-#include <utility>
 #include <cstdio>
 
 void (*printCharFunction)(char);
